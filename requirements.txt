@@ -1,0 +1,9 @@
+# No external dependencies required
+# This project uses only Python standard library modules:
+# - csv
+# - dataclasses
+# - smtplib
+# - email
+# - datetime
+# - os
+# - math

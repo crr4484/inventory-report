@@ -1,0 +1,39 @@
+name: Daily Inventory Report
+
+on:
+  schedule:
+    # Run at 7:00 AM UTC, Monday-Friday
+    - cron: '0 7 * * 1-5'
+  workflow_dispatch:  # Allow manual triggers
+
+jobs:
+  generate-report:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Generate inventory report
+        env:
+          EMAIL_SENDER: ${{ secrets.EMAIL_SENDER }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          EMAIL_RECIPIENTS: ${{ secrets.EMAIL_RECIPIENTS }}
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+        run: |
+          python generate_report.py
+      
+      - name: Upload dashboard artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: inventory-dashboard
+          path: output/dashboard.html
+          retention-days: 30

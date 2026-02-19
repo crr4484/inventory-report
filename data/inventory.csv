@@ -1,0 +1,63 @@
+Product,SKU,Supplier,Annual Volume,Stock on Hand,On Order,Manual Adjustment
+AGCO Roof Adaptor,A/001,SolSteer,17,5,4,0
+AGCO Display Cab Adaptor,A/002,SolSteer,31,7,3,0
+Massey GCAN Adaptor,A/003,SolSteer,1,0,0,0
+Massey SCAN Adaptor,A/004,SolSteer,1,0,0,0
+Valtra GCAN & SCAN Adaptor,A/006,SolSteer,2,0,0,0
+Challenger GCAN Adaptor (GS3),A/008,SolSteer,8,2,0,0
+Rogator / Fendt MT Harness (GS3),A/009,SolSteer,19,7,0,0
+Massey Swather/Windrower WR99XX Cab Adaptor,A/010,SolSteer,4,2,0,2
+Massey Swather 97/98XX SCAN Adaptor,A/013,SolSteer,5,2,0,2
+Massey Swather 97/98XX GCAN Adaptor,A/014,SolSteer,3,2,0,2
+Valtra Cab Adaptor 2,A/015,SolSteer,0,1,0,0
+Rogator C Series Display Cab Adaptor,A/017,SolSteer,5,1,0,0
+Rogator C Series Roof Harness,A/018,SolSteer,4,1,0,0
+Rogator C Series Adaptor,A/019,SolSteer,4,1,0,0
+Massey 7S SCAN Adaptor,A/020,SolSteer,0,1,0,0
+Valtra N/T 5 Receiver Roof Adaptor,A/021,SolSteer,3,0,0,0
+IDEAL Combine Adaptor,A/022,SolSteer,8,3,0,1
+Agri-Steer (CAN) - Controller Only,ECU/001,SolSteer,279,54,0,0
+Agri-Steer (Steer-by-wire) - Controller Only,ECU/002,SolSteer,147,25,10,0
+PCAN-USB,ECU/004,SolSteer,13,1,5,0
+SolSteer Universal Controller - Controller Only,ECU/006,SolSteer,22,7,0,0
+Fendt GCAN Adaptor,F/G001,SolSteer,9,3,0,0
+Fendt GCAN (Gen 6) Adaptor,F/G002,SolSteer,52,12,4,0
+Fendt SCAN Adaptor,F/S001,SolSteer,19,6,0,0
+Fendt ONE SCAN Adaptor,F/S002,SolSteer,43,15,0,0
+Goldacres GCAN Adaptor,GO/001,SolSteer,23,3,4,0
+Goldacres SCAN Adaptor,GO/002,SolSteer,23,3,4,0
+JCB 8000 Adaptor (Trimble Ready),JCB/007,SolSteer,8,1,0,1
+JCB iCON 8000 Adaptor,JCB/012,SolSteer,8,2,0,0
+CNH (CAN) Roof Adaptor,CNH/006,SolSteer,41,10,3,0
+CNH Enable Extension Harness,CNH/007,SolSteer,47,13,0,0
+CNH Combine Adaptor,CNH/012,SolSteer,49,11,5,0
+CNH SBW Magnum Adaptor,CNH/013,SolSteer,58,12,6,0
+CNH Magnum AFS Connect Cab Adaptor,CNH/017,SolSteer,36,10,0,0
+CNH Steiger (CAN) Cab adaptor,CNH/005,SolSteer,15,7,0,0
+CNH SBW Patriot Adaptor,CNH/010,SolSteer,20,8,0,0
+CNH Steiger Adaptor (Autosense),CNH/015,SolSteer,33,11,0,0
+CNH Combine Valve Harness for AF/CR machines,CNH/022,SolSteer,19,8,3,4
+Claas Axion & Xerion Cab Adaptor 6-Way (GS3),CL/004.2,SolSteer,20,8,0,0
+Claas Lexion/Jaguar Adaptor (GS3),CL/006,SolSteer,35,11,0,0
+SBW Generic Adaptor (GS3),S/021,SolSteer,32,1,8,0
+Bulkhead Display Adaptor,S/016,SolSteer,28,0,8,0
+JD-LINK Adaptor,S/029.2,SolSteer,153,29,8,0
+J1939 Diagnostic / Update Cable,S/003,SolSteer,12,2,1,0
+Fendt 700/1000/Gen6 900 Roof Bracket,S/012,SolSteer,35,10,0,0
+GS3 Roof/Receiver Harness,S/GS3,SolSteer,36,11,0,0
+GS4 Roof/Receiver Harness,S/GS4,SolSteer,280,59,0,0
+Smart SCV Fendt Gen7 Adaptor,S/080,SolSteer,22,5,2,0
+Miller Nitro PLM Intelligence Display Adaptor,MIL/005,SolSteer,18,6,0,0
+Miller Nitro PLM Intelligence GCAN Adaptor,MIL/006,SolSteer,18,6,0,0
+Miller Nitro PLM Intelligence SCAN Adaptor,MIL/007,SolSteer,18,5,1,0
+Miller Nitro Display Cab Adaptor,MIL/003,SolSteer,13,4,0,0
+Miller Nitro Roof Adaptor,MIL/002,SolSteer,9,3,0,0
+Raven Harness,RA/001,SolSteer,14,5,0,0
+Smart-MU Extension Cable,S/025,SolSteer,17,5,0,0
+CNH StarFire-compatible Roof Bracket,T3H-B001,Rapid direct,10,6,10,5
+CNH StarFire-compatible Roof Bracket (Pre-2024),T3H-BRA-1,Rapid direct,20,0,0,-5
+StarFire Receiver Bracket,T3H-BRA-2,Rapid direct,77,11,20,0
+COMMAND ECU - Controller Only,T3H-E001,SolSteer,17,42,0,10
+MTG Adapter - RA OBD2 to J1939,T3H-X003,OBDWire,42,26,0,12
+MTG Adapter - J1939 Type 1 Black to Type 2 Green,T3H-X004,OBDWire,6,15,0,10
+Panasonic Toughbook FZ-G2 RS232 Serial Dongle,AU-T3H-FZG2-D1,MMT,4,1,0,0

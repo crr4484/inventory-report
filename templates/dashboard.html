@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📦 Inventory Reorder Report</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+            background-color: #0d1117;
+            color: #c9d1d9;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .subtitle {
+            color: #8b949e;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        /* Summary Cards */
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .summary-card.red {
+            border-left: 4px solid #f85149;
+        }
+
+        .summary-card.orange {
+            border-left: 4px solid #d29922;
+        }
+
+        .summary-card.green {
+            border-left: 4px solid #3fb950;
+        }
+
+        .summary-card.blue {
+            border-left: 4px solid #58a6ff;
+        }
+
+        .summary-card .value {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .summary-card .label {
+            font-size: 12px;
+            color: #8b949e;
+            text-transform: uppercase;
+        }
+
+        /* Section Headers */
+        h2 {
+            font-size: 24px;
+            margin: 40px 0 20px 0;
+            color: #ffffff;
+            border-bottom: 1px solid #30363d;
+            padding-bottom: 10px;
+        }
+
+        /* Supplier Cards Grid */
+        .supplier-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .supplier-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .supplier-card h3 {
+            color: #58a6ff;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .supplier-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        .supplier-stats .stat {
+            text-align: center;
+        }
+
+        .supplier-stats .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #58a6ff;
+        }
+
+        .supplier-stats .stat-label {
+            font-size: 11px;
+            color: #8b949e;
+            text-transform: uppercase;
+        }
+
+        .supplier-items {
+            list-style: none;
+        }
+
+        .supplier-items li {
+            padding: 5px 0;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .supplier-items .sku {
+            color: #8b949e;
+            font-family: 'Courier New', monospace;
+        }
+
+        .supplier-items .qty {
+            font-weight: bold;
+            color: #58a6ff;
+        }
+
+        /* Tables */
+        .table-controls {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .table-controls input,
+        .table-controls select {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .table-controls input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .table-controls select {
+            min-width: 150px;
+        }
+
+        .table-wrapper {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background: #161b22;
+            z-index: 10;
+        }
+
+        th {
+            text-align: left;
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #ffffff;
+            border-bottom: 2px solid #30363d;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 10px 15px;
+            border-bottom: 1px solid #30363d;
+        }
+
+        tbody tr:hover {
+            background: #0d1117;
+        }
+
+        tbody tr.hidden {
+            display: none;
+        }
+
+        /* Status Badges */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge.out-of-stock,
+        .badge.critical {
+            background: #f851491a;
+            color: #f85149;
+        }
+
+        .badge.low {
+            background: #d299221a;
+            color: #d29922;
+        }
+
+        .badge.ok {
+            background: #3fb9501a;
+            color: #3fb950;
+        }
+
+        .badge.overstock {
+            background: #bc8cff1a;
+            color: #bc8cff;
+        }
+
+        .badge.no-demand {
+            background: #6e76811a;
+            color: #6e7681;
+        }
+
+        /* Highlighted Values */
+        .qty-warning {
+            color: #f85149;
+            font-weight: bold;
+        }
+
+        .monospace {
+            font-family: 'Courier New', monospace;
+            color: #8b949e;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .supplier-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .table-controls {
+                flex-direction: column;
+            }
+
+            .table-controls input,
+            .table-controls select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📦 Inventory Reorder Report</h1>
+        <p class="subtitle">Generated on {{REPORT_DATE}}</p>
+
+        <!-- Summary Cards -->
+        <div class="summary-grid">
+            <div class="summary-card red">
+                <div class="value">{{OUT_OF_STOCK_COUNT}}</div>
+                <div class="label">Out of Stock</div>
+            </div>
+            <div class="summary-card orange">
+                <div class="value">{{CRITICAL_COUNT}}</div>
+                <div class="label">Critical (&lt;30 days)</div>
+            </div>
+            <div class="summary-card orange">
+                <div class="value">{{LOW_COUNT}}</div>
+                <div class="label">Low Stock</div>
+            </div>
+            <div class="summary-card green">
+                <div class="value">{{HEALTHY_COUNT}}</div>
+                <div class="label">Healthy</div>
+            </div>
+            <div class="summary-card blue">
+                <div class="value">{{TOTAL_ITEMS_TO_ORDER}}</div>
+                <div class="label">Total Items to Order</div>
+            </div>
+            <div class="summary-card blue">
+                <div class="value">{{TOTAL_ORDER_QTY}}</div>
+                <div class="label">Total Order Qty</div>
+            </div>
+        </div>
+
+        <!-- Supplier Order Summary -->
+        <h2>🏭 Supplier Order Summary</h2>
+        <div class="supplier-grid">
+            {{SUPPLIER_CARDS}}
+        </div>
+
+        <!-- Reorder Table -->
+        <h2>📋 Reorder Requirements</h2>
+        <div class="table-controls">
+            <input type="text" id="reorderSearch" placeholder="Search SKU or product name...">
+            <select id="supplierFilter">
+                <option value="">All Suppliers</option>
+                {{SUPPLIER_OPTIONS}}
+            </select>
+            <select id="statusFilter">
+                <option value="">All Statuses</option>
+                <option value="OUT OF STOCK">Out of Stock</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="LOW">Low</option>
+                <option value="OK">OK</option>
+            </select>
+        </div>
+        <div class="table-wrapper">
+            <table id="reorderTable">
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Product</th>
+                        <th>Supplier</th>
+                        <th>Annual Vol</th>
+                        <th>On Hand</th>
+                        <th>Days Left</th>
+                        <th>Low Threshold</th>
+                        <th>Target</th>
+                        <th>Buffer</th>
+                        <th>On Order</th>
+                        <th>Order Qty</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{REORDER_ROWS}}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Full Inventory Table -->
+        <h2>📊 Full Inventory</h2>
+        <div class="table-controls">
+            <input type="text" id="inventorySearch" placeholder="Search full inventory...">
+        </div>
+        <div class="table-wrapper">
+            <table id="inventoryTable">
+                <thead>
+                    <tr>
+                        <th>SKU</th>
+                        <th>Product</th>
+                        <th>Supplier</th>
+                        <th>Annual Vol</th>
+                        <th>On Hand</th>
+                        <th>Days Left</th>
+                        <th>Low Threshold</th>
+                        <th>Target</th>
+                        <th>Buffer Qty</th>
+                        <th>On Order</th>
+                        <th>Adj</th>
+                        <th>Order Qty</th>
+                        <th>Overstock</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{INVENTORY_ROWS}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Reorder table filtering
+        const reorderSearch = document.getElementById('reorderSearch');
+        const supplierFilter = document.getElementById('supplierFilter');
+        const statusFilter = document.getElementById('statusFilter');
+        const reorderTable = document.getElementById('reorderTable');
+
+        function filterReorderTable() {
+            const searchTerm = reorderSearch.value.toLowerCase();
+            const supplier = supplierFilter.value;
+            const status = statusFilter.value;
+            const rows = reorderTable.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const sku = row.cells[0].textContent.toLowerCase();
+                const product = row.cells[1].textContent.toLowerCase();
+                const rowSupplier = row.cells[2].textContent;
+                const rowStatus = row.cells[11].textContent;
+
+                const matchesSearch = sku.includes(searchTerm) || product.includes(searchTerm);
+                const matchesSupplier = !supplier || rowSupplier === supplier;
+                const matchesStatus = !status || rowStatus === status;
+
+                if (matchesSearch && matchesSupplier && matchesStatus) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+
+        reorderSearch.addEventListener('input', filterReorderTable);
+        supplierFilter.addEventListener('change', filterReorderTable);
+        statusFilter.addEventListener('change', filterReorderTable);
+
+        // Full inventory table filtering
+        const inventorySearch = document.getElementById('inventorySearch');
+        const inventoryTable = document.getElementById('inventoryTable');
+
+        function filterInventoryTable() {
+            const searchTerm = inventorySearch.value.toLowerCase();
+            const rows = inventoryTable.querySelectorAll('tbody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+
+        inventorySearch.addEventListener('input', filterInventoryTable);
+    </script>
+</body>
+</html>
