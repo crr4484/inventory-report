@@ -63,11 +63,10 @@ class Product:
         self.buffer_qty = ceil(weekly_usage * self.buffer_weeks)
         
         # Determine if reorder is needed
+        # Reorder triggers when stock is below 1 month OR below 2 months
+        # Since 1 < 2, this effectively means: reorder when stock < 2 months
         months_of_stock = self.days_to_out_of_stock / 30.0
-        needs_reorder = (
-            months_of_stock < config.REORDER_TRIGGER_MONTHS_MIN or 
-            months_of_stock < config.REORDER_TRIGGER_MONTHS_MAX
-        )
+        needs_reorder = months_of_stock < config.REORDER_TRIGGER_MONTHS_MAX
         
         # Order volume (only if reorder conditions are met)
         if needs_reorder or config.ANALYSE_ALL_STOCK:
